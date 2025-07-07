@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<!-- Required meta tags -->
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+		<!-- Bootstrap CSS -->
+		<link
+			rel="stylesheet"
+			href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+			integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+			crossorigin="anonymous"
+		/>
+		<!-- Font Awesome -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+		<!-- Google Fonts -->
+		<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+		<!-- AOS Animation Library -->
+		<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+		<title>2025 EDPS 6560 Summer Qing Zhang </title>
+		<style>
+			:root {
+				--primary-color: #2c3e50;
+				--secondary-color: #3498db;
+				--text-color: #2c3e50;
+				--light-bg: #f8f9fa;
+			}
+
+			body {
+				background-image: url('img/background pic.jpg');
+				background-size: cover;
+				background-repeat: no-repeat;
+				background-position: center;
+				background-attachment: fixed;
+				margin: 0;
+				padding: 0;
+				min-height: 100vh;
+				font-family: 'Poppins', sans-serif;
+				color: var(--text-color);
+			}
+
+			.overlay {
+				background-color: rgba(255, 255, 255, 0.85);
+				min-height: 100vh;
+			}
+
+			.navbar {
+				background-color: rgba(255, 255, 255, 0.95);
+				box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+				padding: 1rem 2rem;
+			}
+
+			.navbar-nav .nav-link {
+				color: var(--primary-color);
+				font-weight: 500;
+				margin: 0 1rem;
+				transition: color 0.3s ease;
+			}
+
+			.navbar-nav .nav-link:hover {
+				color: var(--secondary-color);
+			}
+
+			.hero-section {
+				padding: 8rem 0 4rem;
+				text-align: center;
+				background: linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.95));
+			}
+
+			.hero-section h1 {
+				font-size: 3.5rem;
+				font-weight: 700;
+				margin-bottom: 1rem;
+				color: var(--primary-color);
+			}
+
+			.hero-section h2 {
+				font-size: 1.5rem;
+				font-weight: 400;
+				color: #666;
+				margin-bottom: 2rem;
+			}
+
+			.hero-section h3 {
+				font-size: 1.2rem;
+				color: var(--secondary-color);
+				margin-bottom: 2rem;
+			}
+
+			.section {
+				padding: 5rem 0;
+				background-color: rgba(255, 255, 255, 0.95);
+			}
+
+			.card {
+				border: none;
+				border-radius: 15px;
+				box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+				transition: transform 0.3s ease;
+				margin-bottom: 2rem;
+			}
+
+			.card:hover {
+				transform: translateY(-5px);
+			}
+
+			.profile-img {
+				border-radius: 50%;
+				border: 5px solid white;
+				box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+				max-width: 250px;
+				width: 100%;
+				height: auto;
+				display: block;
+				margin: 0 auto;
+			}
+
+			.btn-custom {
+				background-color: var(--secondary-color);
+				color: white;
+				padding: 0.8rem 2rem;
+				border-radius: 30px;
+				font-weight: 500;
+				transition: all 0.3s ease;
+			}
+
+			.btn-custom:hover {
+				background-color: var(--primary-color);
+				transform: translateY(-2px);
+				color: white;
+			}
+
+			.social-links a {
+				color: var(--primary-color);
+				margin: 0 10px;
+				font-size: 1.5rem;
+				transition: color 0.3s ease;
+			}
+
+			.social-links a:hover {
+				color: var(--secondary-color);
+			}
+
+			@media (max-width: 768px) {
+				.hero-section {
+					padding: 6rem 0 3rem;
+				}
+
+				.hero-section h1 {
+					font-size: 2.5rem;
+				}
+
+				.section {
+					padding: 3rem 0;
+				}
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="overlay">
+			<!-- Navigation -->
+			<nav class="navbar navbar-expand-lg fixed-top">
+				<div class="container">
+					<a class="navbar-brand font-weight-bold" href="#">Qing Zhang</a>
+					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbarNav">
+						<ul class="navbar-nav ml-auto">
+							<li class="nav-item">
+								<a class="nav-link" href="#about">About </a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="#experience">Experience</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="#education">Education</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="#skills">Skills</a>
+							</li>
+							<li class="nav-item">
+								<a class="btn btn-custom btn-sm" href="#contact" style="padding: 0.5rem 1.5rem;">Contact Me</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+
+			<!-- Hero Section -->
+			<section class="hero-section" id="home">
+				<div class="container">
+					<div class="row justify-content-center">
+						<div class="col-md-10 text-center" data-aos="fade-up">
+							<h1>Qing Zhang</h1>
+							<h2>Graduate Student of Instructional Design and Educational Technology</h2>
+							<h3>
+								<a href="https://sites.google.com/d/1A1Fo84otACF0ou3Ui6ZZt8GDOn5gjRpp/p/1G5zZe4grXeyYtRn1kTZJu13SD2CbF49z/edit">UI Design</a> | 
+								<a href="https://sites.google.com/d/1A1Fo84otACF0ou3Ui6ZZt8GDOn5gjRpp/p/1aicxd50BnJ0sZoTDQRiQCmnRqJg5Sb89/edit">UX Testing</a> | 
+								<a href="https://sites.google.com/d/1A1Fo84otACF0ou3Ui6ZZt8GDOn5gjRpp/p/1aicxd50BnJ0sZoTDQRiQCmnRqJg5Sb89/edit">Web Development</a> | 
+								<a href="https://sites.google.com/d/1A1Fo84otACF0ou3Ui6ZZt8GDOn5gjRpp/p/1aicxd50BnJ0sZoTDQRiQCmnRqJg5Sb89/edit">Feature Project</a> | 
+								<a href="https://sites.google.com/d/1A1Fo84otACF0ou3Ui6ZZt8GDOn5gjRpp/p/1aicxd50BnJ0sZoTDQRiQCmnRqJg5Sb89/edit">eLearning</a>
+							</h3>
+							<p class="lead mb-4">Creating advanced instructional systems and technologies that leverage data analytics to tailor instruction to the specific needs of different learners</p>
+							<div class="social-links">
+								<a href="https://sites.google.com/d/1A1Fo84otACF0ou3Ui6ZZt8GDOn5gjRpp/p/1A1Fo84otACF0ou3Ui6ZZt8GDOn5gjRpp/edit" target="_blank"><i class="fas fa-globe"></i></a>
+								<a href="#contact" class="smooth-scroll"><i class="fas fa-envelope"></i></a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- About Section -->
+			<section class="section" id="about">
+				<div class="container">
+					<!-- First row with profile photo -->
+					<div class="row align-items-center mb-5">
+						<div class="col-md-5 mb-4 mb-md-0" data-aos="fade-right">
+							<img src="img/bio.png" alt="Qing's headshot" class="img-fluid profile-img"/>
+						</div>
+						<div class="col-md-7" data-aos="fade-left">
+							<div class="card">
+								<div class="card-body">
+									<h2 class="mb-4">About Me</h2>
+									<p>I am a patient, detail-oriented, efficient, and creative instructional designer. I enjoy designing meaningful and engaging learning experiences that meet the diverse needs of learners.</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<!-- Second row with students photo -->
+					<div class="row align-items-center">
+						<div class="col-md-7" data-aos="fade-right">
+							<div class="card">
+								<div class="card-body">
+									<p class="lead">Currently, I am a DLI Chinese Teacher with over 5 years of experience in the US DLI Chinese Program. I love teaching Chinese to my US students!</p>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-5 mb-4 mb-md-0" data-aos="fade-left">
+							<img src="img/Students.png" alt="US Students" class="img-fluid rounded shadow" style="max-height: 400px; width: auto;"/>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- Skills Section -->
+			<section class="section bg-light" id="skills">
+				<div class="container">
+					<div class="row justify-content-center" data-aos="fade-up">
+						<div class="col-md-8 text-center">
+							<h2 class="mb-5">Skills</h2>
+							<div class="row">
+								<div class="col-md-6 mb-4">
+									<div class="card h-100">
+										<div class="card-body">
+											<i class="fas fa-chalkboard-teacher fa-2x mb-3 text-primary"></i>
+											<h4>Teaching Excellence</h4>
+											<ul class="list-unstyled text-left">
+												<li><i class="fas fa-check text-success mr-2"></i>5+ years experience in US DLI Chinese Program</li>
+												<li><i class="fas fa-check text-success mr-2"></i>Professional Utah Teaching Certificate</li>
+												<li><i class="fas fa-check text-success mr-2"></i>Proficient in designing courses using teaching software</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-6 mb-4">
+									<div class="card h-100">
+										<div class="card-body">
+											<i class="fas fa-users fa-2x mb-3 text-primary"></i>
+											<h4>Professional Skills</h4>
+											<ul class="list-unstyled text-left">
+												<li><i class="fas fa-check text-success mr-2"></i>Solid awareness of cross-cultural communication</li>
+												<li><i class="fas fa-check text-success mr-2"></i>Sturdy team collaboration awareness</li>
+												<li><i class="fas fa-check text-success mr-2"></i>Strong self-learning proficiency</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- Education Section -->
+			<section class="section" id="education">
+				<div class="container">
+					<div class="row justify-content-center" data-aos="fade-up">
+						<div class="col-md-8">
+							<h2 class="text-center mb-5">Education</h2>
+							<div class="timeline">
+								<div class="card mb-4">
+									<div class="card-body">
+										<h4>IDET Master Degree Program</h4>
+										<h5 class="text-muted">University of Utah, USA</h5>
+										<p class="text-muted">2024 - Current</p>
+									</div>
+								</div>
+								<div class="card mb-4">
+									<div class="card-body">
+										<h4>Master's Degree of Education</h4>
+										<h5 class="text-muted">South-Central University for Nationalities, China</h5>
+										<p class="text-muted">2013 - 2015</p>
+									</div>
+								</div>
+								<div class="card mb-4">
+									<div class="card-body">
+										<h4>Bachelor's Degree in Management</h4>
+										<h5 class="text-muted">South-Central University for Nationalities, China</h5>
+										<p class="text-muted">2008 - 2012</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- Experience Section -->
+			<section class="section bg-light" id="experience">
+				<div class="container">
+					<div class="row justify-content-center" data-aos="fade-up">
+						<div class="col-md-8">
+							<h2 class="text-center mb-5">Professional Experience</h2>
+							
+							<!-- Current Position -->
+							<div class="card mb-4">
+								<div class="card-body">
+									<h4>Chinese Immersion Teacher (7th-9th grade)</h4>
+									<h5 class="text-muted">South Ogden Junior High, Weber School District, USA</h5>
+									<p class="text-muted">November 2019 - Present</p>
+									<ul class="list-unstyled">
+										<li class="mb-2"><i class="fas fa-circle fa-xs mr-2"></i>Creating teaching plans and materials for three different grades</li>
+										<li class="mb-2"><i class="fas fa-circle fa-xs mr-2"></i>Collaborating with DLI program teachers nationally</li>
+										<li class="mb-2"><i class="fas fa-circle fa-xs mr-2"></i>Designing AP exam-focused instructional content</li>
+										<li class="mb-2"><i class="fas fa-circle fa-xs mr-2"></i>Providing safe and educational teaching environment</li>
+										<li class="mb-2"><i class="fas fa-circle fa-xs mr-2"></i>Actively participating in professional development</li>
+										<li class="mb-2"><i class="fas fa-circle fa-xs mr-2"></i>Volunteering for WSD Multicultural Festival LEAP</li>
+									</ul>
+								</div>
+							</div>
+
+							<!-- Previous Position 1 -->
+							<div class="card mb-4">
+								<div class="card-body">
+									<h4>Chinese Language Teacher</h4>
+									<h5 class="text-muted">Wuhan Technology & Business University, Wuhan, China</h5>
+									<p class="text-muted">August 2014 - September 2019</p>
+									<ul class="list-unstyled">
+										<li class="mb-2"><i class="fas fa-circle fa-xs mr-2"></i>Managing diverse international classrooms</li>
+										<li class="mb-2"><i class="fas fa-circle fa-xs mr-2"></i>Organizing cultural activities and preparing teaching outlines</li>
+										<li class="mb-2"><i class="fas fa-circle fa-xs mr-2"></i>Developing individualized teaching strategies</li>
+										<li class="mb-2"><i class="fas fa-circle fa-xs mr-2"></i>Assisting with HSK exam preparation</li>
+									</ul>
+								</div>
+							</div>
+
+							<!-- Previous Position 2 -->
+							<div class="card mb-4">
+								<div class="card-body">
+									<h4>Chinese Language Teacher (Confucius Institute)</h4>
+									<h5 class="text-muted">Sekolah Poitek, Ambon, Maluku, Indonesia</h5>
+									<p class="text-muted">September 2016 - September 2017</p>
+									<ul class="list-unstyled">
+										<li class="mb-2"><i class="fas fa-circle fa-xs mr-2"></i>Teaching six different grade levels</li>
+										<li class="mb-2"><i class="fas fa-circle fa-xs mr-2"></i>Preparing tailored lesson plans and cultural activities</li>
+										<li class="mb-2"><i class="fas fa-circle fa-xs mr-2"></i>Managing 40+ weekly lessons across multiple classes</li>
+									</ul>
+								</div>
+							</div>
+
+							<!-- Previous Position 3 -->
+							<div class="card mb-4">
+								<div class="card-body">
+									<h4>Student Teacher, Grade 1-6</h4>
+									<h5 class="text-muted">New Dynamic Institute, Wuhan, China</h5>
+									<p class="text-muted">September 2012 - September 2013</p>
+									<ul class="list-unstyled">
+										<li class="mb-2"><i class="fas fa-circle fa-xs mr-2"></i>Received comprehensive monthly pre-training</li>
+										<li class="mb-2"><i class="fas fa-circle fa-xs mr-2"></i>Designed engaging classroom activities</li>
+										<li class="mb-2"><i class="fas fa-circle fa-xs mr-2"></i>Maintained regular parent communication</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- Contact Section -->
+			<section class="section" id="contact">
+				<div class="container">
+					<div class="row justify-content-center" data-aos="fade-up">
+						<div class="col-md-8 text-center">
+							<h2 class="mb-5">Contact Me</h2>
+							<div class="card">
+								<div class="card-body">
+									<p class="lead">
+										<i class="fas fa-envelope mr-2"></i>
+										<a href="mailto:cynthiazhang868@gmail.com">cynthiazhang868@gmail.com</a>
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+
+		<!-- Scripts -->
+		<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+		<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+		<script>
+			AOS.init({
+				duration: 1000,
+				once: true
+			});
+		</script>
+	</body>
+</html>

@@ -1,0 +1,25 @@
+
+/*Example Vaariables*/
+:root {
+    /* Fonts */
+    --font-barlow-condensed: "Barlow Condensed", system-ui;
+    --font-manufacturing-consent: "Manufacturing Consent", system-ui;
+
+    /* Colors */
+    --main-color-black: #000000;
+    --main-color-white: #ffffff; 
+
+
+  }
+  /* Example Syntax */
+  #sec_lan {height: 200vh;
+background-color:var(--main-color-white);
+}
+#sec_lan_header {
+    height: 15vh;
+    background-color: var(--main-color-black);
+}
+#sec_lan_sec1 {
+    height: 85vh;
+}
+  
