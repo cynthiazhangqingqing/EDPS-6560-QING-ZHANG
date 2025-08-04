@@ -18,133 +18,97 @@
 		<!-- FontAwesome CSS -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" />
 
-
 		<!--Google Fonts-->
 		<link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Manufacturing+Consent&display=swap" rel="stylesheet">
 		
+		<!-- Custom CSS -->
+		<link rel="stylesheet" href="style.css">
 		
 		<title>EDPS 6560 Spring 2025 Qing Zhang</title>
-    <style>
-        body {
-            background-image: url('img/background pic.jpg'); 
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-position: center;
-            margin: 0;
-            padding: 0;
-            min-height: 100vh; 
-        }
-    </style>
-
 	</head>
 
 	<body>
-
-		<!-- Welcome to EDPS 6560 Week 2 - 
-                                 This is an example comment!-->
-		<div id="sec_lan" class="container-fluid">
-			<div class="row justify-content-between">
-			
-				<div class="col-auto">
-
-					<h1><strong>Cynthia Zhang</strong></h1>
-				</div>
-
-				<div class="col-auto">
-					<a href="contact.html"><i class="fas fa-envelope"></i> Contact Me</a>
-			   </div>
-			</div>
-		
-
-    <div class="row justify-content-around align-items-center my-4">
-
-            <div class="col-6">
-			 <h2>A graduate student of Instructional Design and Educational Technology </h2>
-			 <br>
-			 <h4>UI Design | UX Testing | Web Development | Machine Learning | eLearning</h4>
-	        </div>
-
-			   <div class="col-4">
-					<img src="img/icon.png" alt="this is an icon" height="200" width="auto" />
-				<!--右边的图片-->
-			  </div>
-    </div>
-
-	<br>
-				
-	
-	        <div class="row justify-content-center my-3">
-					<div class="col-auto">
-						<a href="#">
-							<span>Scroll down</span> <br/>
-							<i class="fas fa-chevron-circle-down"></i>
-						</a>
-					</div>
-				</div>	
-
-				<div clas="row justify-content-center my-3">
-					<div class="col-6">
-					<h4>Creating advanced instructional systems and technologies that leverage data analytics to tailor instruction to the specific needs of different learners
-					</h4>
-					<a href="https://sites.google.com/d/1A1Fo84otACF0ou3Ui6ZZt8GDOn5gjRpp/p/1G5zZe4grXeyYtRn1kTZJu13SD2CbF49z/edit" title=”Cynthia’s Google Site”>About Me</a>
-				</div>
-			</div>
-		</div>
-
-	
-
-
-
-
+		<!-- Navigation - Fixed Position with Flexbox -->
 		<nav id="sec_nav">
+			<div class="nav-brand">
+				<h3><strong>Cynthia Zhang</strong></h3>
+			</div>
 			<ul>
-				<li>About Me</li>
-				<li>Experience</li>
-				<li>Education</li>
+				<li><a href="#sec_abo">About Me</a></li>
+				<li><a href="#sec_exp">Experience</a></li>
+				<li><a href="#education">Education</a></li>
 				<li><a href="projects/1.html">Portfolio</a></li>
-				<li><a href="https://sites.google.com/d/1A1Fo84otACF0ou3Ui6ZZt8GDOn5gjRpp/p/1G5zZe4grXeyYtRn1kTZJu13SD2CbF49z/edit" title=“Cynthia’s Google Site”> Qing's Google Site</a></li>
-				<li><a href="contact.html" target="_blank">Contact Me</a></li>
-				<li> <a class="btn btn-success rounded-pill" href="contact me.html" role="button" target="_blank">Contact Me</a></li>
+				<li><a href="https://sites.google.com/d/1A1Fo84otACF0ou3Ui6ZZt8GDOn5gjRpp/p/1G5zZe4grXeyYtRn1kTZJu13SD2CbF49z/edit" title="Cynthia's Google Site">Qing's Google Site</a></li>
+				<li><a class="btn btn-success rounded-pill" href="contact me.html" role="button" target="_blank">Contact Me</a></li>
 			</ul>
 		</nav>
 
+		<!-- Header Section - Flexbox Layout -->
+		<div id="sec_lan">
+			<div class="header-content">
+				<div class="header-text">
+					<h1><strong>Cynthia Zhang</strong></h1>
+					<h2>A graduate student of Instructional Design and Educational Technology</h2>
+					<h4>UI Design | UX Testing | Web Development | Machine Learning | eLearning</h4>
+					<p>Creating advanced instructional systems and technologies that leverage data analytics to tailor instruction to the specific needs of different learners</p>
+					<a href="https://sites.google.com/d/1A1Fo84otACF0ou3Ui6ZZt8GDOn5gjRpp/p/1G5zZe4grXeyYtRn1kTZJu13SD2CbF49z/edit" title="Cynthia's Google Site" class="btn btn-outline-light">About Me</a>
+				</div>
+				<div class="header-image">
+					<img src="img/icon.png" alt="Cynthia's profile icon" />
+				</div>
+			</div>
 
+			<div class="scroll-down">
+				<a href="#sec_abo">
+					<span>Scroll down</span>
+					<i class="fas fa-chevron-circle-down"></i>
+				</a>
+			</div>
+		</div>
+
+		<!-- About Section - CSS Grid Layout -->
 		<div id="sec_abo">
-			<!-- Start About Me Section -->
-			<h1>About Me</h1>
-			<img src="img/bio.png" alt="Cynthia’s headshot" height="300" width="auto" />
-			<p>
-Currently, I am a DLI Chinese Teacher. I love teaching Chinese to my US students! <br>
-Meanwhile， I am a patient, detail-oriented, efficient, and creative instructional designer. <br>I enjoy designing meaningful and engaging learning experiences that meet the diverse needs of learners.
-			</p>
-<img src="img/Students.png" alt="US Students" height="400" width="auto" />
-
+			<div class="about-container">
+				<div class="about-grid">
+					<div class="about-text">
+						<h1>About Me</h1>
+						<p>
+							Currently, I am a DLI Chinese Teacher. I love teaching Chinese to my US students! <br>
+							Meanwhile, I am a patient, detail-oriented, efficient, and creative instructional designer. <br>
+							I enjoy designing meaningful and engaging learning experiences that meet the diverse needs of learners.
+						</p>
+					</div>
+					<div class="about-image">
+						<img src="img/bio.png" alt="Cynthia's headshot" />
+					</div>
+				</div>
+				
+				<div class="students-section">
+					<img src="img/Students.png" alt="US Students" />
+				</div>
+			</div>
 		</div>
 
-
-
-
-		<!-- End About Me Section -->
-
+		<!-- Experience Section - CSS Grid Layout -->
 		<div id="sec_exp">
-			<!-- Start Experience Section -->
-			<h1><a href="https://drive.google.com/drive/folders/1ZpVLnR09uigT6srumPHWLbx-0ahPP-G9" title=“Qing's Experience”> Qing's Experience</a></h1>
-			<h2>Certificates</h2>
-			<h3>Educational Psychology, <br /><span>University of Utah</span></h3>
-			<p>August 2024 - <em>present</em></p>
-			<p class="par_exp">
-			I am a passionate lover of life. I enjoy music and often play my favorite pop songs on the piano. Singing also brings me joy and helps me express myself. I believe that a love for life and a positive attitude fuel both personal growth and professional success.
-			</p>
+			<div class="experience-container">
+				<div class="experience-grid">
+					<div class="experience-header">
+						<h1><a href="https://drive.google.com/drive/folders/1ZpVLnR09uigT6srumPHWLbx-0ahPP-G9" title="Qing's Experience">Qing's Experience</a></h1>
+					</div>
+					<div class="experience-content">
+						<h2>Certificates</h2>
+						<h3>Educational Psychology, <br /><span>University of Utah</span></h3>
+						<p>August 2024 - <em>present</em></p>
+						<p class="par_exp">
+							I am a passionate lover of life. I enjoy music and often play my favorite pop songs on the piano. Singing also brings me joy and helps me express myself. I believe that a love for life and a positive attitude fuel both personal growth and professional success.
+						</p>
+					</div>
+				</div>
+			</div>
 		</div>
-
-
-
-
-
-
-		<!-- End Experience Section -->
 
 		<!-- Optional JavaScript -->
 		<!-- jQuery first, then Popper.js, then Bootstrap JS -->
