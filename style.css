@@ -43,6 +43,10 @@ body {
     background-attachment: fixed;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 /* Navigation - Flexbox Layout */
 #sec_nav {
     position: fixed;
@@ -169,7 +173,7 @@ body {
 }
 
 .scroll-down a {
-    color: var(--main-color-white);
+    color: #1b5e20;
     text-decoration: none;
     font-size: 1.1rem;
     transition: all 0.3s ease;
@@ -177,6 +181,7 @@ body {
 
 .scroll-down i {
     font-size: 2rem;
+    color: #1b5e20;
     margin-top: 0.5rem;
     display: block;
     animation: bounce 2s infinite;
@@ -197,8 +202,6 @@ body {
 /* About Section - CSS Grid Layout */
 #sec_abo {
     padding: var(--section-padding);
-    background: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(10px);
 }
 
 .about-container {
@@ -248,31 +251,152 @@ body {
     transform: scale(1.02);
 }
 
-/* Students Image - Float Element */
-.students-section {
-    margin-top: 3rem;
+/* Frosted section spacing; background moved to inner frosted-box */
+.frosted-section {
+    padding: var(--section-padding);
+}
+
+/* Frosted glass only behind content */
+.frosted-box {
+    background: rgba(255, 255, 255, 0.10); /* 90% transparent */
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    box-shadow: var(--box-shadow);
+    padding: 2rem;
+}
+
+/* Unified image sizing aligned with new design */
+.profile-img {
+    border-radius: 50%;
+    border: 5px solid var(--main-color-white);
+    box-shadow: var(--box-shadow);
+    max-width: 120px;
+    width: 100%;
+    height: auto;
+}
+
+.students-photo {
+    max-height: 360px;
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: var(--box-shadow);
+}
+
+/* Skills Section Grid */
+.skills-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--container-padding);
+}
+
+.section-title {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
     text-align: center;
 }
 
-.students-section img {
-    max-width: 100%;
+/* Unified page title across pages */
+.page-title {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.skills-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+}
+
+.skills-image img {
+    width: 100%;
     height: auto;
-    border-radius: 15px;
-    box-shadow: var(--box-shadow);
-    float: right;
-    margin-left: 2rem;
+    border-radius: 10px;
+}
+
+.skills-content h3 {
+    font-size: 1.8rem;
     margin-bottom: 1rem;
-    transition: transform 0.3s ease;
 }
 
-.students-section img:hover {
-    transform: scale(1.02);
+.skills-content ul {
+    padding-left: 1.2rem;
 }
 
-/* Experience Section - CSS Grid Layout */
+.skills-content li {
+    margin-bottom: 0.6rem;
+}
+
+/* Contact Me Section */
+.contact-section {
+    text-align: center;
+    margin-top: 3rem;
+    padding: 0;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.contact-content h3 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: var(--main-color-white);
+}
+
+.contact-content p {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    color: var(--main-color-white);
+}
+
+.social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.social-icon {
+    color: var(--main-color-white);
+    font-size: 2rem;
+    transition: color 0.3s ease;
+}
+
+.social-icon:hover {
+    color: var(--accent-color);
+}
+
+/* Deep green icons in main page contact section */
+#contact .social-icon {
+    color: #1b5e20;
+}
+
+/* Contact Me Section in main content */
+.contact-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: var(--container-padding);
+    text-align: center;
+}
+
+.contact-container h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: var(--text-color);
+}
+
+.contact-container p {
+    font-size: 1.3rem;
+    margin-bottom: 2rem;
+    color: var(--text-color);
+}
+
+/* Experience Section - uses frosted-section */
 #sec_exp {
     padding: var(--section-padding);
-    background: var(--light-gray);
 }
 
 .experience-container {
@@ -380,9 +504,12 @@ body {
         gap: 2rem;
     }
 
-    .students-section img {
-        float: none;
-        margin-left: 0;
+    .profile-img {
+        max-width: 160px;
+    }
+
+    .skills-grid {
+        grid-template-columns: 1fr;
     }
 }
 
