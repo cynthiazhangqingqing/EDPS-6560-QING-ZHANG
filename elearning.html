@@ -3,18 +3,454 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>中国象棋在线游戏E-learning </title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <title>中国象棋在线游戏</title>
+    <style>
+        /* 全局样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* 游戏头部 */
+        .game-header {
+            text-align: center;
+            margin-bottom: 30px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .game-header h1 {
+            font-size: 2.5rem;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .game-info {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .current-player {
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
+        .player-indicator {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        .player-indicator.red {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .player-indicator.black {
+            background: #2c3e50;
+            color: white;
+        }
+
+        .game-status {
+            font-size: 1.1rem;
+            color: #27ae60;
+            font-weight: 500;
+        }
+
+        /* 游戏主体 */
+        .game-main {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 30px;
+            align-items: start;
+        }
+
+        /* 棋盘容器 */
+        .chess-board-container {
+            position: relative;
+            display: flex;
+            justify-content: center;
+        }
+
+        .chess-board {
+            display: grid;
+            grid-template-columns: repeat(9, 1fr);
+            grid-template-rows: repeat(10, 1fr);
+            width: 540px;
+            height: 600px;
+            background: #f4d03f;
+            border: 3px solid #8b4513;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        /* 棋盘格子 */
+        .chess-cell {
+            border: 1px solid #8b4513;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .chess-cell:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+        }
+
+        .chess-cell.selected {
+            background: rgba(52, 152, 219, 0.6);
+            box-shadow: inset 0 0 10px rgba(52, 152, 219, 0.8);
+        }
+
+        .chess-cell.valid-move {
+            background: rgba(46, 204, 113, 0.6);
+            box-shadow: inset 0 0 10px rgba(46, 204, 113, 0.8);
+        }
+
+        .chess-cell.valid-move:hover {
+            background: rgba(46, 204, 113, 0.8);
+        }
+
+        /* 棋子样式 */
+        .chess-piece {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            cursor: grab;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            border: 2px solid #333;
+        }
+
+        .chess-piece:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        .chess-piece.red {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            border-color: #a93226;
+        }
+
+        .chess-piece.black {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            border-color: #1b2631;
+        }
+
+        .chess-piece.dragging {
+            opacity: 0.8;
+            transform: scale(1.2);
+            z-index: 1000;
+        }
+
+        /* 楚河汉界 */
+        .river-label {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            pointer-events: none;
+        }
+
+        .river-label span {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #8b4513;
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px 20px;
+            border-radius: 25px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* 游戏控制 */
+        .game-controls {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            height: fit-content;
+        }
+
+        .control-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #2980b9, #1f5f8b);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #95a5a6, #7f8c8d);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: linear-gradient(135deg, #7f8c8d, #6c7b7d);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* 移动历史 */
+        .move-history h3 {
+            margin-bottom: 15px;
+            color: #2c3e50;
+            font-size: 1.2rem;
+        }
+
+        .history-list {
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #ecf0f1;
+            border-radius: 8px;
+            padding: 10px;
+            background: #f8f9fa;
+        }
+
+        .history-item {
+            padding: 8px 12px;
+            margin-bottom: 5px;
+            background: white;
+            border-radius: 6px;
+            border-left: 3px solid #3498db;
+            font-size: 0.9rem;
+        }
+
+        .history-item:last-child {
+            margin-bottom: 0;
+        }
+
+        /* 消息覆盖层 */
+        .message-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+        }
+
+        .message-overlay.show {
+            display: flex;
+        }
+
+        .message-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            max-width: 400px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .message-content h3 {
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+
+        .message-content p {
+            margin-bottom: 20px;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 1024px) {
+            .game-main {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .chess-board {
+                width: 450px;
+                height: 500px;
+            }
+            
+            .chess-piece {
+                width: 35px;
+                height: 35px;
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .game-header h1 {
+                font-size: 2rem;
+            }
+            
+            .game-info {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .chess-board {
+                width: 360px;
+                height: 400px;
+            }
+            
+            .chess-piece {
+                width: 30px;
+                height: 30px;
+                font-size: 0.9rem;
+            }
+            
+            .river-label span {
+                font-size: 1.2rem;
+                padding: 8px 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .chess-board {
+                width: 300px;
+                height: 333px;
+            }
+            
+            .chess-piece {
+                width: 25px;
+                height: 25px;
+                font-size: 0.8rem;
+            }
+            
+            .river-label span {
+                font-size: 1rem;
+                padding: 6px 12px;
+            }
+        }
+
+        /* 动画效果 */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .chess-board {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .chess-piece.selected {
+            animation: pulse 1s infinite;
+        }
+
+        /* 滚动条样式 */
+        .history-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .history-list::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+
+        .history-list::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 3px;
+        }
+
+        .history-list::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <header class="game-header">
-            <h1>中国象棋</h1>
-            <h1>Let's learn how to play Chinese Chess!</h1>
+            <h1>中国象棋Chinese Chess</h1>
+            <h3>E-learning for Chinese Chess</h3>
+            <br>
+        
             <div class="game-info">
                 <div class="current-player">
-                    <span>当前回合: </span>
+                    <span>当前回合Current Player: </span>
                     <span id="current-player" class="player-indicator red">红方</span>
                 </div>
                 <div class="game-status" id="game-status">游戏进行中</div>
@@ -58,6 +494,743 @@
         </div>
     </div>
 
-    <script src="{{ url_for('static', filename='js/game.js') }}"></script>
+    <script>
+        class ChineseChessGame {
+            constructor() {
+                this.board = [];
+                this.currentPlayer = 'red';
+                this.gameOver = false;
+                this.winner = null;
+                this.selectedPiece = null;
+                this.validMoves = [];
+                this.moveHistory = [];
+                
+                this.init();
+            }
+            
+            init() {
+                this.setupEventListeners();
+                this.initializeBoard();
+                this.renderBoard();
+                this.updateGameInfo();
+            }
+            
+            setupEventListeners() {
+                // 悔棋按钮
+                document.getElementById('undo-btn').addEventListener('click', () => {
+                    this.undoMove();
+                });
+                
+                // 重新开始按钮
+                document.getElementById('reset-btn').addEventListener('click', () => {
+                    this.resetGame();
+                });
+                
+                // 消息关闭按钮
+                document.getElementById('message-close').addEventListener('click', () => {
+                    this.hideMessage();
+                });
+            }
+            
+            initializeBoard() {
+                this.board = Array(10).fill().map(() => Array(9).fill(''));
+                
+                // 红方棋子 (下方)
+                this.board[9][0] = 'red_che';      // 车
+                this.board[9][1] = 'red_ma';       // 马
+                this.board[9][2] = 'red_xiang';    // 相
+                this.board[9][3] = 'red_shi';      // 士
+                this.board[9][4] = 'red_jiang';    // 将
+                this.board[9][5] = 'red_shi';      // 士
+                this.board[9][6] = 'red_xiang';    // 相
+                this.board[9][7] = 'red_ma';       // 马
+                this.board[9][8] = 'red_che';      // 车
+                this.board[7][1] = 'red_pao';      // 炮
+                this.board[7][7] = 'red_pao';      // 炮
+                this.board[6][0] = 'red_bing';     // 兵
+                this.board[6][2] = 'red_bing';     // 兵
+                this.board[6][4] = 'red_bing';     // 兵
+                this.board[6][6] = 'red_bing';     // 兵
+                this.board[6][8] = 'red_bing';     // 兵
+                
+                // 黑方棋子 (上方)
+                this.board[0][0] = 'black_che';    // 车
+                this.board[0][1] = 'black_ma';     // 马
+                this.board[0][2] = 'black_xiang';  // 相
+                this.board[0][3] = 'black_shi';    // 士
+                this.board[0][4] = 'black_jiang';  // 将
+                this.board[0][5] = 'black_shi';    // 士
+                this.board[0][6] = 'black_xiang';  // 相
+                this.board[0][7] = 'black_ma';     // 马
+                this.board[0][8] = 'black_che';    // 车
+                this.board[2][1] = 'black_pao';    // 炮
+                this.board[2][7] = 'black_pao';    // 炮
+                this.board[3][0] = 'black_bing';   // 兵
+                this.board[3][2] = 'black_bing';   // 兵
+                this.board[3][4] = 'black_bing';   // 兵
+                this.board[3][6] = 'black_bing';   // 兵
+                this.board[3][8] = 'black_bing';   // 兵
+            }
+            
+            renderBoard() {
+                const chessBoard = document.getElementById('chess-board');
+                chessBoard.innerHTML = '';
+                
+                for (let row = 0; row < 10; row++) {
+                    for (let col = 0; col < 9; col++) {
+                        const cell = document.createElement('div');
+                        cell.className = 'chess-cell';
+                        cell.dataset.row = row;
+                        cell.dataset.col = col;
+                        
+                        // 添加点击事件
+                        cell.addEventListener('click', (e) => {
+                            this.handleCellClick(row, col);
+                        });
+                        
+                        // 如果有棋子，创建棋子元素
+                        if (this.board[row][col]) {
+                            const piece = this.createChessPiece(this.board[row][col], row, col);
+                            cell.appendChild(piece);
+                        }
+                        
+                        chessBoard.appendChild(cell);
+                    }
+                }
+            }
+            
+            createChessPiece(pieceType, row, col) {
+                const piece = document.createElement('div');
+                piece.className = 'chess-piece';
+                piece.dataset.row = row;
+                piece.dataset.col = col;
+                
+                const [color, type] = pieceType.split('_');
+                piece.classList.add(color);
+                
+                // 设置棋子文字
+                const pieceText = this.getPieceText(type);
+                piece.textContent = pieceText;
+                
+                // 添加拖拽事件
+                piece.addEventListener('mousedown', (e) => {
+                    this.handlePieceMouseDown(e, row, col);
+                });
+                
+                return piece;
+            }
+            
+            getPieceText(type) {
+                const pieceMap = {
+                    'jiang': '将',
+                    'shi': '士',
+                    'xiang': '相',
+                    'ma': '马',
+                    'che': '车',
+                    'pao': '炮',
+                    'bing': '兵'
+                };
+                
+                return pieceMap[type] || type;
+            }
+            
+            handleCellClick(row, col) {
+                if (this.gameOver) {
+                    return;
+                }
+                
+                // 如果点击的是已选中的棋子，取消选择
+                if (this.selectedPiece && 
+                    this.selectedPiece.row === row && 
+                    this.selectedPiece.col === col) {
+                    this.clearSelection();
+                    return;
+                }
+                
+                // 如果点击的是有效移动位置，执行移动
+                if (this.validMoves.some(move => move[0] === row && move[1] === col)) {
+                    this.executeMove(this.selectedPiece.row, this.selectedPiece.col, row, col);
+                    return;
+                }
+                
+                // 如果点击的是棋子，选择该棋子
+                if (this.board[row][col]) {
+                    const [color] = this.board[row][col].split('_');
+                    if (color === this.currentPlayer) {
+                        this.selectPiece(row, col);
+                    }
+                }
+            }
+            
+            handlePieceMouseDown(e, row, col) {
+                if (this.gameOver) {
+                    return;
+                }
+                
+                const [color] = this.board[row][col].split('_');
+                if (color === this.currentPlayer) {
+                    this.selectPiece(row, col);
+                }
+            }
+            
+            selectPiece(row, col) {
+                // 清除之前的选择
+                this.clearSelection();
+                
+                // 设置新的选择
+                this.selectedPiece = { row, col };
+                
+                // 高亮选中的棋子
+                const pieceElement = document.querySelector(`[data-row="${row}"][data-col="${col}"] .chess-piece`);
+                if (pieceElement) {
+                    pieceElement.classList.add('selected');
+                }
+                
+                // 获取并显示有效移动
+                this.showValidMoves(row, col);
+            }
+            
+            clearSelection() {
+                // 清除选中状态
+                if (this.selectedPiece) {
+                    const pieceElement = document.querySelector(`[data-row="${this.selectedPiece.row}"][data-col="${this.selectedPiece.col}"] .chess-piece`);
+                    if (pieceElement) {
+                        pieceElement.classList.remove('selected');
+                    }
+                    this.selectedPiece = null;
+                }
+                
+                // 清除有效移动高亮
+                this.clearValidMovesHighlight();
+            }
+            
+            showValidMoves(row, col) {
+                this.validMoves = this.getValidMoves(row, col);
+                
+                // 高亮有效移动位置
+                this.validMoves.forEach(([moveRow, moveCol]) => {
+                    const cell = document.querySelector(`[data-row="${moveRow}"][data-col="${moveCol}"]`);
+                    if (cell) {
+                        cell.classList.add('valid-move');
+                    }
+                });
+            }
+            
+            clearValidMovesHighlight() {
+                document.querySelectorAll('.valid-move').forEach(cell => {
+                    cell.classList.remove('valid-move');
+                });
+                this.validMoves = [];
+            }
+            
+            getValidMoves(row, col) {
+                if (!this.isValidPosition(row, col) || this.board[row][col] === '') {
+                    return [];
+                }
+                
+                const piece = this.board[row][col];
+                const color = piece.split('_')[0];
+                
+                if (color !== this.currentPlayer) {
+                    return [];
+                }
+                
+                const pieceType = piece.split('_')[1];
+                let validMoves = [];
+                
+                switch (pieceType) {
+                    case 'jiang':
+                        validMoves = this.getJiangMoves(row, col, color);
+                        break;
+                    case 'shi':
+                        validMoves = this.getShiMoves(row, col, color);
+                        break;
+                    case 'xiang':
+                        validMoves = this.getXiangMoves(row, col, color);
+                        break;
+                    case 'ma':
+                        validMoves = this.getMaMoves(row, col, color);
+                        break;
+                    case 'che':
+                        validMoves = this.getCheMoves(row, col, color);
+                        break;
+                    case 'pao':
+                        validMoves = this.getPaoMoves(row, col, color);
+                        break;
+                    case 'bing':
+                        validMoves = this.getBingMoves(row, col, color);
+                        break;
+                }
+                
+                return validMoves;
+            }
+            
+            getJiangMoves(row, col, color) {
+                const moves = [];
+                const directions = [[0, 1], [0, -1], [1, 0], [-1, 0]];
+                
+                for (const [dr, dc] of directions) {
+                    const newRow = row + dr;
+                    const newCol = col + dc;
+                    if (this.isValidPosition(newRow, newCol)) {
+                        // 检查是否在九宫格内
+                        if (color === 'red') {
+                            if (newRow >= 7 && newRow <= 9 && newCol >= 3 && newCol <= 5) {
+                                if (this.canMoveTo(newRow, newCol, color)) {
+                                    moves.push([newRow, newCol]);
+                                }
+                            }
+                        } else { // black
+                            if (newRow >= 0 && newRow <= 2 && newCol >= 3 && newCol <= 5) {
+                                if (this.canMoveTo(newRow, newCol, color)) {
+                                    moves.push([newRow, newCol]);
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                return moves;
+            }
+            
+            getShiMoves(row, col, color) {
+                const moves = [];
+                const directions = [[1, 1], [1, -1], [-1, 1], [-1, -1]];
+                
+                for (const [dr, dc] of directions) {
+                    const newRow = row + dr;
+                    const newCol = col + dc;
+                    if (this.isValidPosition(newRow, newCol)) {
+                        // 检查是否在九宫格内
+                        if (color === 'red') {
+                            if (newRow >= 7 && newRow <= 9 && newCol >= 3 && newCol <= 5) {
+                                if (this.canMoveTo(newRow, newCol, color)) {
+                                    moves.push([newRow, newCol]);
+                                }
+                            }
+                        } else { // black
+                            if (newRow >= 0 && newRow <= 2 && newCol >= 3 && newCol <= 5) {
+                                if (this.canMoveTo(newRow, newCol, color)) {
+                                    moves.push([newRow, newCol]);
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                return moves;
+            }
+            
+            getXiangMoves(row, col, color) {
+                const moves = [];
+                const directions = [[2, 2], [2, -2], [-2, 2], [-2, -2]];
+                
+                for (const [dr, dc] of directions) {
+                    const newRow = row + dr;
+                    const newCol = col + dc;
+                    if (this.isValidPosition(newRow, newCol)) {
+                        // 检查是否过河
+                        if (color === 'red' && newRow < 5) continue;
+                        if (color === 'black' && newRow > 4) continue;
+                        
+                        // 检查象眼是否被堵
+                        const midRow = row + dr / 2;
+                        const midCol = col + dc / 2;
+                        if (this.board[midRow][midCol] === '') {
+                            if (this.canMoveTo(newRow, newCol, color)) {
+                                moves.push([newRow, newCol]);
+                            }
+                        }
+                    }
+                }
+                
+                return moves;
+            }
+            
+            getMaMoves(row, col, color) {
+                const moves = [];
+                const horseMoves = [
+                    [-2, -1], [-2, 1], [-1, -2], [-1, 2],
+                    [1, -2], [1, 2], [2, -1], [2, 1]
+                ];
+                
+                for (const [dr, dc] of horseMoves) {
+                    const newRow = row + dr;
+                    const newCol = col + dc;
+                    if (this.isValidPosition(newRow, newCol)) {
+                        // 检查马腿是否被堵
+                        let legRow, legCol;
+                        if (Math.abs(dr) === 2) {
+                            legRow = row + dr / 2;
+                            legCol = col;
+                        } else {
+                            legRow = row;
+                            legCol = col + dc / 2;
+                        }
+                        
+                        if (this.board[legRow][legCol] === '') {
+                            if (this.canMoveTo(newRow, newCol, color)) {
+                                moves.push([newRow, newCol]);
+                            }
+                        }
+                    }
+                }
+                
+                return moves;
+            }
+            
+            getCheMoves(row, col, color) {
+                const moves = [];
+                const directions = [[0, 1], [0, -1], [1, 0], [-1, 0]];
+                
+                for (const [dr, dc] of directions) {
+                    for (let step = 1; step < 10; step++) {
+                        const newRow = row + dr * step;
+                        const newCol = col + dc * step;
+                        if (!this.isValidPosition(newRow, newCol)) break;
+                        
+                        const target = this.board[newRow][newCol];
+                        if (target === '') {
+                            moves.push([newRow, newCol]);
+                        } else if (target.split('_')[0] !== color) {
+                            moves.push([newRow, newCol]);
+                            break;
+                        } else {
+                            break;
+                        }
+                    }
+                }
+                
+                return moves;
+            }
+            
+            getPaoMoves(row, col, color) {
+                const moves = [];
+                const directions = [[0, 1], [0, -1], [1, 0], [-1, 0]];
+                
+                for (const [dr, dc] of directions) {
+                    let foundPlatform = false;
+                    for (let step = 1; step < 10; step++) {
+                        const newRow = row + dr * step;
+                        const newCol = col + dc * step;
+                        if (!this.isValidPosition(newRow, newCol)) break;
+                        
+                        const target = this.board[newRow][newCol];
+                        if (!foundPlatform) {
+                            if (target === '') {
+                                moves.push([newRow, newCol]);
+                            } else {
+                                foundPlatform = true;
+                            }
+                        } else {
+                            if (target !== '') {
+                                if (target.split('_')[0] !== color) {
+                                    moves.push([newRow, newCol]);
+                                }
+                                break;
+                            }
+                        }
+                    }
+                }
+                
+                return moves;
+            }
+            
+            getBingMoves(row, col, color) {
+                const moves = [];
+                
+                if (color === 'red') {
+                    // 红方向前移动
+                    if (row > 0) {
+                        if (this.canMoveTo(row - 1, col, color)) {
+                            moves.push([row - 1, col]);
+                        }
+                    }
+                    
+                    // 过河后可以左右移动
+                    if (row < 5) {
+                        for (const dc of [-1, 1]) {
+                            const newCol = col + dc;
+                            if (newCol >= 0 && newCol < 9) {
+                                if (this.canMoveTo(row, newCol, color)) {
+                                    moves.push([row, newCol]);
+                                }
+                            }
+                        }
+                    }
+                } else { // black
+                    // 黑方向后移动
+                    if (row < 9) {
+                        if (this.canMoveTo(row + 1, col, color)) {
+                            moves.push([row + 1, col]);
+                        }
+                    }
+                    
+                    // 过河后可以左右移动
+                    if (row > 4) {
+                        for (const dc of [-1, 1]) {
+                            const newCol = col + dc;
+                            if (newCol >= 0 && newCol < 9) {
+                                if (this.canMoveTo(row, newCol, color)) {
+                                    moves.push([row, newCol]);
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                return moves;
+            }
+            
+            canMoveTo(row, col, color) {
+                if (!this.isValidPosition(row, col)) {
+                    return false;
+                }
+                
+                const target = this.board[row][col];
+                if (target === '') {
+                    return true;
+                }
+                
+                const targetColor = target.split('_')[0];
+                return targetColor !== color;
+            }
+            
+            isValidPosition(row, col) {
+                return row >= 0 && row < 10 && col >= 0 && col < 9;
+            }
+            
+            executeMove(fromRow, fromCol, toRow, toCol) {
+                // 记录移动历史
+                const captured = this.board[toRow][toCol];
+                this.moveHistory.push({
+                    from: [fromRow, fromCol],
+                    to: [toRow, toCol],
+                    piece: this.board[fromRow][fromCol],
+                    captured: captured
+                });
+                
+                // 执行移动
+                this.board[toRow][toCol] = this.board[fromRow][fromCol];
+                this.board[fromRow][fromCol] = '';
+                
+                // 检查是否将军
+                if (this.isCheck(this.currentPlayer)) {
+                    // 如果移动后自己被将军，撤销移动
+                    this.board[fromRow][fromCol] = this.board[toRow][toCol];
+                    this.board[toRow][toCol] = captured;
+                    this.moveHistory.pop();
+                    this.showMessage('移动失败', '移动后会被将军');
+                    return;
+                }
+                
+                // 检查是否将军对方
+                const opponent = this.currentPlayer === 'red' ? 'black' : 'red';
+                if (this.isCheck(opponent)) {
+                    if (this.isCheckmate(opponent)) {
+                        this.gameOver = true;
+                        this.winner = this.currentPlayer;
+                        this.showMessage('将军！', '游戏结束！');
+                    } else {
+                        this.showMessage('移动成功', '将军！');
+                    }
+                } else {
+                    this.showMessage('移动成功', '移动完成');
+                }
+                
+                // 切换玩家
+                this.currentPlayer = opponent;
+                
+                // 重新渲染棋盘
+                this.renderBoard();
+                this.updateGameInfo();
+                
+                // 检查游戏是否结束
+                if (this.gameOver) {
+                    this.showGameOverMessage();
+                }
+            }
+            
+            isCheck(color) {
+                // 找到将/帅的位置
+                let jiangPos = null;
+                for (let row = 0; row < 10; row++) {
+                    for (let col = 0; col < 9; col++) {
+                        const piece = this.board[row][col];
+                        if (piece === `${color}_jiang`) {
+                            jiangPos = [row, col];
+                            break;
+                        }
+                    }
+                    if (jiangPos) break;
+                }
+                
+                if (!jiangPos) return false;
+                
+                // 检查是否有对方棋子可以攻击将/帅
+                const opponent = color === 'red' ? 'black' : 'red';
+                for (let row = 0; row < 10; row++) {
+                    for (let col = 0; col < 9; col++) {
+                        const piece = this.board[row][col];
+                        if (piece && piece.split('_')[0] === opponent) {
+                            const validMoves = this.getValidMoves(row, col);
+                            if (validMoves.some(move => move[0] === jiangPos[0] && move[1] === jiangPos[1])) {
+                                return true;
+                            }
+                        }
+                    }
+                }
+                
+                return false;
+            }
+            
+            isCheckmate(color) {
+                // 找到将/帅的位置
+                let jiangPos = null;
+                for (let row = 0; row < 10; row++) {
+                    for (let col = 0; col < 9; col++) {
+                        const piece = this.board[row][col];
+                        if (piece === `${color}_jiang`) {
+                            jiangPos = [row, col];
+                            break;
+                        }
+                    }
+                    if (jiangPos) break;
+                }
+                
+                if (!jiangPos) return false;
+                
+                // 检查是否有任何合法移动可以解除将军
+                for (let row = 0; row < 10; row++) {
+                    for (let col = 0; col < 9; col++) {
+                        const piece = this.board[row][col];
+                        if (piece && piece.split('_')[0] === color) {
+                            const validMoves = this.getValidMoves(row, col);
+                            for (const [moveRow, moveCol] of validMoves) {
+                                // 临时执行移动
+                                const tempPiece = this.board[moveRow][moveCol];
+                                this.board[moveRow][moveCol] = piece;
+                                this.board[row][col] = '';
+                                
+                                // 检查是否仍然被将军
+                                const stillInCheck = this.isCheck(color);
+                                
+                                // 撤销移动
+                                this.board[row][col] = piece;
+                                this.board[moveRow][moveCol] = tempPiece;
+                                
+                                if (!stillInCheck) {
+                                    return false;
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                return true;
+            }
+            
+            undoMove() {
+                if (this.moveHistory.length === 0) {
+                    this.showMessage('悔棋失败', '没有可悔棋的移动');
+                    return;
+                }
+                
+                const lastMove = this.moveHistory.pop();
+                const [fromRow, fromCol] = lastMove.from;
+                const [toRow, toCol] = lastMove.to;
+                const piece = lastMove.piece;
+                const captured = lastMove.captured;
+                
+                // 撤销移动
+                this.board[fromRow][fromCol] = piece;
+                this.board[toRow][toCol] = captured;
+                
+                // 切换回上一个玩家
+                this.currentPlayer = this.currentPlayer === 'red' ? 'black' : 'red';
+                
+                // 重置游戏状态
+                this.gameOver = false;
+                this.winner = null;
+                
+                // 重新渲染棋盘
+                this.renderBoard();
+                this.updateGameInfo();
+                
+                this.showMessage('悔棋成功', '悔棋完成');
+            }
+            
+            resetGame() {
+                this.initializeBoard();
+                this.currentPlayer = 'red';
+                this.gameOver = false;
+                this.winner = null;
+                this.moveHistory = [];
+                
+                // 重新渲染棋盘
+                this.renderBoard();
+                this.updateGameInfo();
+                
+                // 清除选择
+                this.clearSelection();
+                
+                this.showMessage('游戏重置', '游戏已重新开始');
+            }
+            
+            updateGameInfo() {
+                // 更新当前玩家显示
+                const currentPlayerElement = document.getElementById('current-player');
+                currentPlayerElement.textContent = this.currentPlayer === 'red' ? '红方' : '黑方';
+                currentPlayerElement.className = `player-indicator ${this.currentPlayer}`;
+                
+                // 更新游戏状态
+                const gameStatusElement = document.getElementById('game-status');
+                if (this.gameOver) {
+                    gameStatusElement.textContent = `游戏结束 - ${this.winner === 'red' ? '红方' : '黑方'}获胜`;
+                    gameStatusElement.style.color = '#e74c3c';
+                } else {
+                    gameStatusElement.textContent = '游戏进行中';
+                    gameStatusElement.style.color = '#27ae60';
+                }
+                
+                // 更新按钮状态
+                const undoBtn = document.getElementById('undo-btn');
+                const resetBtn = document.getElementById('reset-btn');
+                
+                undoBtn.disabled = this.gameOver;
+                resetBtn.disabled = false;
+            }
+            
+            showMessage(title, text) {
+                const messageOverlay = document.getElementById('message-overlay');
+                const messageTitle = document.getElementById('message-title');
+                const messageText = document.getElementById('message-text');
+                
+                messageTitle.textContent = title;
+                messageText.textContent = text;
+                messageOverlay.classList.add('show');
+                
+                // 3秒后自动隐藏
+                setTimeout(() => {
+                    this.hideMessage();
+                }, 3000);
+            }
+            
+            hideMessage() {
+                const messageOverlay = document.getElementById('message-overlay');
+                messageOverlay.classList.remove('show');
+            }
+            
+            showGameOverMessage() {
+                const winnerText = this.winner === 'red' ? '红方' : '黑方';
+                this.showMessage('游戏结束', `恭喜！${winnerText}获胜！`);
+            }
+        }
+
+        // 页面加载完成后初始化游戏
+        document.addEventListener('DOMContentLoaded', () => {
+            new ChineseChessGame();
+        });
+    </script>
 </body>
 </html>
