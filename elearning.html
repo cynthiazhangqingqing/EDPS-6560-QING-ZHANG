@@ -1,82 +1,62 @@
 <!DOCTYPE html>
-<html lang="en">
-	<head>
-		<!-- Required meta tags -->
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-		<meta name="description" content="This is a website about Qing Zhang's Portfolio.">
-		<meta name="keywords" content="Qing Zhang,Portfolio,Instructional Design,Educational Psychology.">
-		<meta name="author" content="Qing Zhang">
-		<!-- Bootstrap CSS -->
-		<link
-			rel="stylesheet"
-			href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-			integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-			crossorigin="anonymous"
-		/>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>中国象棋在线游戏</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="game-header">
+            <h1>中国象棋</h1>
+            <div class="game-info">
+                <div class="current-player">
+                    <span>当前回合: </span>
+                    <span id="current-player" class="player-indicator red">红方</span>
+                </div>
+                <div class="game-status" id="game-status">游戏进行中</div>
+            </div>
+        </header>
 
-		<!-- FontAwesome CSS -->
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" />
+        <main class="game-main">
+            <div class="chess-board-container">
+                <div class="chess-board" id="chess-board">
+                    <!-- 棋盘格子将通过JavaScript动态生成 -->
+                </div>
+                
+                <!-- 楚河汉界 -->
+                <div class="river-label">
+                    <span>楚河</span>
+                    <span>汉界</span>
+                </div>
+            </div>
 
-		<!--Google Fonts-->
-		<link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,400;1,500;1,600;1,700;1,800;1,900&family=Manufacturing+Consent&display=swap" rel="stylesheet">
-		
-		<!-- Custom CSS -->
-		<link rel="stylesheet" href="style.css">
-		
-		<title>eLearning - EDPS 6560 Spring 2025 Qing Zhang</title>
-	</head>
+            <div class="game-controls">
+                <div class="control-buttons">
+                    <button id="undo-btn" class="btn btn-secondary">悔棋</button>
+                    <button id="reset-btn" class="btn btn-primary">重新开始</button>
+                </div>
+                
+                <div class="move-history">
+                    <h3>移动历史</h3>
+                    <div id="move-history-list" class="history-list">
+                        <!-- 移动历史将通过JavaScript动态生成 -->
+                    </div>
+                </div>
+            </div>
+        </main>
 
-	<body>
-		<!-- Navigation - Fixed Position with Flexbox -->
-		<nav id="sec_nav">
-			<div class="nav-brand">
-				<h3><strong>Cynthia Zhang</strong></h3>
-			</div>
-			<ul>
-				<li><a href="index.html">Home</a></li>
-				<li><a href="index.html#sec_abo">About Me</a></li>
-				<li><a href="skills.html">Skills</a></li>
-				<li><a href="experience.html">Experience</a></li>
-				<li><a href="education.html">Education</a></li>
-				<li><a href="https://sites.google.com/d/1A1Fo84otACF0ou3Ui6ZZt8GDOn5gjRpp/p/1G5zZe4grXeyYtRn1kTZJu13SD2CbF49z/edit" title="Cynthia's Google Site">Qing's Google Site</a></li>
-				<li><a class="btn btn-success rounded-pill" href="index.html#contact" role="button">Contact Me</a></li>
-			</ul>
-		</nav>
+        <div class="message-overlay" id="message-overlay">
+            <div class="message-content">
+                <h3 id="message-title">消息</h3>
+                <p id="message-text"></p>
+                <button id="message-close" class="btn btn-primary">确定</button>
+            </div>
+        </div>
+    </div>
 
-		<!-- eLearning Section -->
-		<div id="elearning" class="frosted-section">
-			<div class="container frosted-box">
-				<div class="row justify-content-center">
-					<div class="col-md-8">
-						<h2 class="page-title">eLearning</h2>
-						<div class="text-center">
-							<p class="lead">Coming Soon...</p>
-							<p>This section will showcase my eLearning projects and instructional design work.</p>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<!-- Optional JavaScript -->
-		<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-		<script
-			src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-			integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-			crossorigin="anonymous"
-		></script>
-		<script
-			src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-			integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-			crossorigin="anonymous"
-		></script>
-		<script
-			src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-			integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-			crossorigin="anonymous"
-		></script>
-	</body>
+    <script src="{{ url_for('static', filename='js/game.js') }}"></script>
+</body>
 </html>
